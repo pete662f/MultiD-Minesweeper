@@ -10,17 +10,17 @@ namespace MultiD_Minesweeper
     internal class Core
     {
         public Core() { }
-        public int[,] Game(int dim = 2, int size = 10, int number_of_mines = 5)
+        public int[,] Game(int dim = 2, int size = 10, int number_of_mines = 15)
         {
             var random = new Random();
 
-            int[,] grid = new int[size, size];
+            int[,] grid = new int[size, size]; 
 
             int n = grid.GetLength(0);
             int m = grid.GetLength(1);
+
+
             // Initialize all cells to 0
-
-
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < m; j++)
@@ -37,7 +37,8 @@ namespace MultiD_Minesweeper
                 {
                     mine_x = random.Next(0, n);
                     mine_y = random.Next(0, m);
-                } while (grid[mine_x, mine_y] < 0);
+                } while (grid[mine_x, mine_y] < 0); // negative value = mine
+
                 // Place mine and update neighboring cells
                 for (int x = -1; x <= 1; x++)
                 {
@@ -45,14 +46,17 @@ namespace MultiD_Minesweeper
                     {
                         if (x == 0 && y == 0)
                         {
-                            grid[mine_x, mine_y] = -number_of_mines;
+                            grid[mine_x, mine_y] = -number_of_mines; // negative value = mine
                         }
                         else
                         {
+
+                            // check the bounds of the array
                             int new_x = mine_x + x;
                             int new_y = mine_y + y;
                             if (new_x >= 0 && new_x < n && new_y >= 0 && new_y < m)
                             {
+                                // increment the cell value by 1
                                 grid[new_x, new_y]++;
                             }
                         }

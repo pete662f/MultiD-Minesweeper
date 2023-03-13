@@ -13,7 +13,6 @@ namespace MultiD_Minesweeper
     public partial class Form1 : Form
     {
         Core test = new Core();
-        test.Game();
 
         
         int[] orderX = { 0, 1, 2, 3 };
@@ -31,6 +30,7 @@ namespace MultiD_Minesweeper
             InitializeComponent();
             orderX = orderX.OrderBy(x => randomX.Next()).ToArray();
             orderY = orderY.OrderBy(x => randomY.Next()).ToArray();
+            test.Game();
 
         }
 
