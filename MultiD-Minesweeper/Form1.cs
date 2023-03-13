@@ -16,7 +16,7 @@ namespace MultiD_Minesweeper
         int[] orderY = { 0, 1, 2, 3 };
         Random randomX = new Random(Guid.NewGuid().GetHashCode());
         Random randomY = new Random(Guid.NewGuid().GetHashCode());
-        string[,] buttonPair = { { "yes", "no", "no", "no" } , { "no", "no", "no", "no" } , { "no", "no", "no", "no" } , { "no", "no", "no", "no" } };
+        string[,] buttonPair = { { "yes", "no", "no", "no" }, { "no", "no", "no", "no" }, { "no", "no", "no", "no" }, { "no", "no", "no", "no" } };
 
         int count = 1;
         int XMax = 4;
