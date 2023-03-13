@@ -12,6 +12,10 @@ namespace MultiD_Minesweeper
 {
     public partial class Form1 : Form
     {
+        Core test = new Core();
+        test.Game();
+
+        
         int[] orderX = { 0, 1, 2, 3 };
         int[] orderY = { 0, 1, 2, 3 };
         Random randomX = new Random(Guid.NewGuid().GetHashCode());
