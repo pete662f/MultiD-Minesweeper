@@ -12,9 +12,6 @@ namespace MultiD_Minesweeper
 {
     public partial class Form1 : Form
     {
-        Core test = new Core();
-
-        
         int[] orderX = { 0, 1, 2, 3 };
         int[] orderY = { 0, 1, 2, 3 };
         Random randomX = new Random(Guid.NewGuid().GetHashCode());
@@ -30,8 +27,6 @@ namespace MultiD_Minesweeper
             InitializeComponent();
             orderX = orderX.OrderBy(x => randomX.Next()).ToArray();
             orderY = orderY.OrderBy(x => randomY.Next()).ToArray();
-            test.Game();
-
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
