@@ -28,6 +28,13 @@ namespace MultiD_Minesweeper
             orderX = orderX.OrderBy(x => randomX.Next()).ToArray();
             orderY = orderY.OrderBy(x => randomY.Next()).ToArray();
 
+        }
+
+        private void buttonStart_Click(object sender, EventArgs e)
+        {
+            buttonStart.Visible = false; //Hide the start button
+
+            //generate the game board
             for (int j = 0; j < YMax; j++)
             {
                 for (int i = 0; i < XMax; i++)
@@ -40,7 +47,6 @@ namespace MultiD_Minesweeper
                     Controls.Add(b);
                 }
             }
-
         }
     }
 }
