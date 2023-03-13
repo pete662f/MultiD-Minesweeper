@@ -33,7 +33,6 @@ namespace MultiD_Minesweeper
             orderY = orderY.OrderBy(x => randomY.Next()).ToArray();
             tabControl1.TabPages.Clear();
             tabControl1.TabPages.Insert(0, tabPageMenu);
-
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
