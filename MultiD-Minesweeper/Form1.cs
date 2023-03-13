@@ -27,7 +27,6 @@ namespace MultiD_Minesweeper
             InitializeComponent();
             orderX = orderX.OrderBy(x => randomX.Next()).ToArray();
             orderY = orderY.OrderBy(x => randomY.Next()).ToArray();
-
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
