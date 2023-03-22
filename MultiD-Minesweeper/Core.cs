@@ -14,8 +14,19 @@ namespace MultiD_Minesweeper
         {
             var random = new Random();
 
-            int[,,] grid = new int[size, size, size];
+            int xSize = 1, ySize = 1, zSize = 1;
 
+            if (dim == 2)
+            {
+                xSize = size; ySize = size;
+            }
+            else if (dim == 3)
+            {
+                xSize = size; ySize = size; zSize = size;
+            }
+            
+            int[,,] grid = new int[xSize, ySize, zSize];
+            
             int n = grid.GetLength(0);
             int m = grid.GetLength(1);
             int o = grid.GetLength(2);
