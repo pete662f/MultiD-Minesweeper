@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace MultiD_Minesweeper
@@ -10,6 +13,8 @@ namespace MultiD_Minesweeper
     internal class Core
     {
         public Core() { }
+        private Stopwatch timer;
+
         public int[,,] Game(int dim = 3, int size = 10, int number_of_mines = 150)
         {
             var random = new Random();
@@ -24,9 +29,9 @@ namespace MultiD_Minesweeper
             {
                 xSize = size; ySize = size; zSize = size;
             }
-            
+
             int[,,] grid = new int[xSize, ySize, zSize];
-            
+
             int n = grid.GetLength(0);
             int m = grid.GetLength(1);
             int o = grid.GetLength(2);
@@ -53,7 +58,7 @@ namespace MultiD_Minesweeper
                     mine_x = random.Next(0, n);
                     mine_y = random.Next(0, m);
                     mine_z = random.Next(0, o);
-                } while (grid[mine_x, mine_y, mine_z] < 0); // negative value = mine
+                } while (grid[mine_x, mine_y, mine_z] < 0); // Negative value = mine
 
                 // Place mine and update neighboring cells
                 for (int x = -1; x <= 1; x++)
@@ -64,18 +69,18 @@ namespace MultiD_Minesweeper
                         {
                             if (x == 0 && y == 0 && z == 0)
                             {
-                                grid[mine_x, mine_y, mine_z] = -number_of_mines; // negative value = mine
+                                grid[mine_x, mine_y, mine_z] = -number_of_mines; // Negative value = mine
                             }
                             else
                             {
 
-                                // check the bounds of the array
+                                // Check the bounds of the array
                                 int new_x = mine_x + x;
                                 int new_y = mine_y + y;
                                 int new_z = mine_z + z;
                                 if (new_x >= 0 && new_x < n && new_y >= 0 && new_y < m && new_z >= 0 && new_z < o)
                                 {
-                                    // increment the cell value by 1
+                                    // Increment the cell value by 1
                                     grid[new_x, new_y, new_z]++;
                                 }
                             }
@@ -86,5 +91,23 @@ namespace MultiD_Minesweeper
             }
             return grid;
         }
+
+        public void TimerStart()
+        {
+            timer = new Stopwatch();
+            timer.Start();
+        }
+        public string TimerStop()
+        {
+            timer.Stop();
+
+            // Get the elapsed time as a TimeSpan value.
+            TimeSpan ts = timer.Elapsed;
+
+            // Format and display the TimeSpan value.
+            string elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds);
+            return elapsedTime;
+        }
+
     }
 }
