@@ -97,16 +97,21 @@ namespace MultiD_Minesweeper
             timer = new Stopwatch();
             timer.Start();
         }
-        public string TimerStop()
+        public string TimerElapsedTime()
         {
-            timer.Stop();
-
             // Get the elapsed time as a TimeSpan value.
             TimeSpan ts = timer.Elapsed;
 
             // Format and display the TimeSpan value.
             string elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds);
             return elapsedTime;
+        }
+        public string TimerStop()
+        {
+            timer.Stop();
+
+            // Returns the elapsedTime
+            return TimerElapsedTime();
         }
 
     }
