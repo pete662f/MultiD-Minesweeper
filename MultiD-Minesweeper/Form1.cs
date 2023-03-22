@@ -15,22 +15,14 @@ namespace MultiD_Minesweeper
         int dimensions;
         int length;
         int mines;
+        Core core = new Core(); //Initiate core.cs
 
-        int[] orderX = { 0, 1, 2, 3 };
-        int[] orderY = { 0, 1, 2, 3 };
-        Random randomX = new Random(Guid.NewGuid().GetHashCode());
-        Random randomY = new Random(Guid.NewGuid().GetHashCode());
-        string[,] buttonPair = { { "yes", "no", "no", "no" }, { "no", "no", "no", "no" }, { "no", "no", "no", "no" }, { "no", "no", "no", "no" } };
-
-        int count = 1;
-        int XMax = 4;
-        int YMax = 4;
+        int count = 1; //what number the button is
 
         public Form1()
         {
             InitializeComponent();
-            orderX = orderX.OrderBy(x => randomX.Next()).ToArray();
-            orderY = orderY.OrderBy(x => randomY.Next()).ToArray();
+
             //hide the tab pages and open the menu page
             tabControl1.TabPages.Clear();
             tabControl1.TabPages.Insert(0, tabPageMenu);
@@ -57,18 +49,37 @@ namespace MultiD_Minesweeper
                 tabControl1.TabPages.Clear();
                 tabControl1.TabPages.Insert(0, tabPageGame);
 
+                //Change the size of the window to maximized
+                this.MaximumSize = new Size(0, 0);
+                this.WindowState = FormWindowState.Maximized;
+                this.MinimumSize = this.Size;
+                this.MaximumSize = this.Size;
+                tabControl1.Size = this.MaximumSize - new Size(15, 85);
+
+                //Create a game board to use
+                int[,,] gameBoard = core.Game(dimensions, length, mines);
+
                 //generate the game board in the game tab
-                for (int j = 0; j < YMax; j++)
+                for (int k = 0; k < length; k++)
                 {
-                    for (int i = 0; i < XMax; i++)
+                    for (int j = 0; j < length; j++)
                     {
-                        Button b = new Button();
-                        b.Text = buttonPair[orderX[i], orderY[j]];
-                        b.Name = count.ToString();
-                        b.Size = new Size(35, 35);
-                        b.Location = new Point(40 * (i + 2), 40 * j);
-                        Controls.Add(b);
-                        tabPageGame.Controls.Add(b);
+                        for (int i = 0; i < length; i++)
+                        {
+                            Button b = new Button();
+                            if (gameBoard[i, j, k] < 0)
+                            {
+                                b.Text = "Bomb";
+                            } else
+                            {
+                                b.Text = gameBoard[i, j, k].ToString();
+                            }
+                            b.Name = count.ToString();
+                            b.Size = new Size(35, 35);
+                            b.Location = new Point(10 + 40 * i + 40 * length * k + 20 * k, 10 + 40 * j);
+                            Controls.Add(b);
+                            tabPageGame.Controls.Add(b);
+                        }
                     }
                 }
             }

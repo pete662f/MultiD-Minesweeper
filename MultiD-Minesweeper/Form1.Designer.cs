@@ -38,16 +38,16 @@
             this.textBoxLength = new System.Windows.Forms.TextBox();
             this.textBoxMines = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPagePlay = new System.Windows.Forms.TabPage();
             this.tabPageMenu = new System.Windows.Forms.TabPage();
-            this.tabPageSettings = new System.Windows.Forms.TabPage();
-            this.tabPageGame = new System.Windows.Forms.TabPage();
-            this.buttonPlay = new System.Windows.Forms.Button();
-            this.labelSettings = new System.Windows.Forms.Label();
             this.buttonSettings = new System.Windows.Forms.Button();
+            this.buttonPlay = new System.Windows.Forms.Button();
+            this.tabPagePlay = new System.Windows.Forms.TabPage();
+            this.tabPageSettings = new System.Windows.Forms.TabPage();
+            this.labelSettings = new System.Windows.Forms.Label();
+            this.tabPageGame = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
-            this.tabPagePlay.SuspendLayout();
             this.tabPageMenu.SuspendLayout();
+            this.tabPagePlay.SuspendLayout();
             this.tabPageSettings.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -143,6 +143,40 @@
             this.tabControl1.Size = new System.Drawing.Size(785, 450);
             this.tabControl1.TabIndex = 9;
             // 
+            // tabPageMenu
+            // 
+            this.tabPageMenu.Controls.Add(this.buttonSettings);
+            this.tabPageMenu.Controls.Add(this.buttonPlay);
+            this.tabPageMenu.Location = new System.Drawing.Point(4, 29);
+            this.tabPageMenu.Name = "tabPageMenu";
+            this.tabPageMenu.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageMenu.Size = new System.Drawing.Size(777, 417);
+            this.tabPageMenu.TabIndex = 1;
+            this.tabPageMenu.Text = "Menu";
+            this.tabPageMenu.UseVisualStyleBackColor = true;
+            // 
+            // buttonSettings
+            // 
+            this.buttonSettings.Font = new System.Drawing.Font("Stencil", 30F);
+            this.buttonSettings.Location = new System.Drawing.Point(196, 229);
+            this.buttonSettings.Name = "buttonSettings";
+            this.buttonSettings.Size = new System.Drawing.Size(346, 80);
+            this.buttonSettings.TabIndex = 1;
+            this.buttonSettings.Text = "Settings";
+            this.buttonSettings.UseVisualStyleBackColor = true;
+            this.buttonSettings.Click += new System.EventHandler(this.buttonSettings_Click);
+            // 
+            // buttonPlay
+            // 
+            this.buttonPlay.Font = new System.Drawing.Font("Stencil", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonPlay.Location = new System.Drawing.Point(196, 73);
+            this.buttonPlay.Name = "buttonPlay";
+            this.buttonPlay.Size = new System.Drawing.Size(346, 131);
+            this.buttonPlay.TabIndex = 0;
+            this.buttonPlay.Text = "Play";
+            this.buttonPlay.UseVisualStyleBackColor = true;
+            this.buttonPlay.Click += new System.EventHandler(this.buttonPlay_Click);
+            // 
             // tabPagePlay
             // 
             this.tabPagePlay.Controls.Add(this.buttonStart);
@@ -162,18 +196,6 @@
             this.tabPagePlay.Text = "Play";
             this.tabPagePlay.UseVisualStyleBackColor = true;
             // 
-            // tabPageMenu
-            // 
-            this.tabPageMenu.Controls.Add(this.buttonSettings);
-            this.tabPageMenu.Controls.Add(this.buttonPlay);
-            this.tabPageMenu.Location = new System.Drawing.Point(4, 29);
-            this.tabPageMenu.Name = "tabPageMenu";
-            this.tabPageMenu.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMenu.Size = new System.Drawing.Size(777, 417);
-            this.tabPageMenu.TabIndex = 1;
-            this.tabPageMenu.Text = "Menu";
-            this.tabPageMenu.UseVisualStyleBackColor = true;
-            // 
             // tabPageSettings
             // 
             this.tabPageSettings.Controls.Add(this.labelSettings);
@@ -183,26 +205,6 @@
             this.tabPageSettings.TabIndex = 2;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
-            // 
-            // tabPageGame
-            // 
-            this.tabPageGame.Location = new System.Drawing.Point(4, 29);
-            this.tabPageGame.Name = "tabPageGame";
-            this.tabPageGame.Size = new System.Drawing.Size(777, 417);
-            this.tabPageGame.TabIndex = 3;
-            this.tabPageGame.Text = "Game";
-            this.tabPageGame.UseVisualStyleBackColor = true;
-            // 
-            // buttonPlay
-            // 
-            this.buttonPlay.Font = new System.Drawing.Font("Stencil", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonPlay.Location = new System.Drawing.Point(196, 73);
-            this.buttonPlay.Name = "buttonPlay";
-            this.buttonPlay.Size = new System.Drawing.Size(346, 131);
-            this.buttonPlay.TabIndex = 0;
-            this.buttonPlay.Text = "Play";
-            this.buttonPlay.UseVisualStyleBackColor = true;
-            this.buttonPlay.Click += new System.EventHandler(this.buttonPlay_Click);
             // 
             // labelSettings
             // 
@@ -214,16 +216,16 @@
             this.labelSettings.TabIndex = 3;
             this.labelSettings.Text = "Settings";
             // 
-            // buttonSettings
+            // tabPageGame
             // 
-            this.buttonSettings.Font = new System.Drawing.Font("Stencil", 30F);
-            this.buttonSettings.Location = new System.Drawing.Point(196, 229);
-            this.buttonSettings.Name = "buttonSettings";
-            this.buttonSettings.Size = new System.Drawing.Size(346, 80);
-            this.buttonSettings.TabIndex = 1;
-            this.buttonSettings.Text = "Settings";
-            this.buttonSettings.UseVisualStyleBackColor = true;
-            this.buttonSettings.Click += new System.EventHandler(this.buttonSettings_Click);
+            this.tabPageGame.AutoScroll = true;
+            this.tabPageGame.AutoScrollMargin = new System.Drawing.Size(10, 10);
+            this.tabPageGame.Location = new System.Drawing.Point(4, 29);
+            this.tabPageGame.Name = "tabPageGame";
+            this.tabPageGame.Size = new System.Drawing.Size(777, 417);
+            this.tabPageGame.TabIndex = 3;
+            this.tabPageGame.Text = "Game";
+            this.tabPageGame.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -231,12 +233,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(778, 444);
             this.Controls.Add(this.tabControl1);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(800, 500);
+            this.MinimumSize = new System.Drawing.Size(800, 500);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.tabControl1.ResumeLayout(false);
+            this.tabPageMenu.ResumeLayout(false);
             this.tabPagePlay.ResumeLayout(false);
             this.tabPagePlay.PerformLayout();
-            this.tabPageMenu.ResumeLayout(false);
             this.tabPageSettings.ResumeLayout(false);
             this.tabPageSettings.PerformLayout();
             this.ResumeLayout(false);
