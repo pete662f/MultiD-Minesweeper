@@ -14,7 +14,7 @@ namespace MultiD_Minesweeper
         {
             var random = new Random();
 
-            int[,,] grid = new int[size, size, size]; 
+            int[,,] grid = new int[size, size, size];
 
             int n = grid.GetLength(0);
             int m = grid.GetLength(1);
@@ -62,16 +62,13 @@ namespace MultiD_Minesweeper
                                 int new_x = mine_x + x;
                                 int new_y = mine_y + y;
                                 int new_z = mine_z + z;
-                                if (new_x >= 0 && new_x < n && new_y >= 0 && new_y < m && new_z >= 0 && new_z <o)
+                                if (new_x >= 0 && new_x < n && new_y >= 0 && new_y < m && new_z >= 0 && new_z < o)
                                 {
                                     // increment the cell value by 1
                                     grid[new_x, new_y, new_z]++;
                                 }
                             }
                         }
-
-
-                        
                     }
                 }
 
