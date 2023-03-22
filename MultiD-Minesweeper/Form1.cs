@@ -60,7 +60,7 @@ namespace MultiD_Minesweeper
                 int[,,] gameBoard = core.Game(dimensions, length, mines);
 
                 //generate the game board in the game tab
-                for (int k = 0; k < length; k++)
+                for (int k = 0; k < gameBoard.GetLength(2); k++)
                 {
                     for (int j = 0; j < length; j++)
                     {
@@ -74,11 +74,10 @@ namespace MultiD_Minesweeper
                             {
                                 b.Text = gameBoard[i, j, k].ToString();
                             }
-                            b.Name = count.ToString();
-                            b.Size = new Size(35, 35);
-                            b.Location = new Point(10 + 40 * i + 40 * length * k + 20 * k, 10 + 40 * j);
-                            Controls.Add(b);
-                            tabPageGame.Controls.Add(b);
+                            b.Name = count.ToString(); //Name the button so you can find it's coordinates again later
+                            b.Size = new Size(35, 35); //Give the button a size
+                            b.Location = new Point(10 + 40 * i + 40 * length * k + 20 * k, 10 + 40 * j); //Give the button a location based on it's coordinates
+                            tabPageGame.Controls.Add(b); //Add the previous information to the button to place it
                         }
                     }
                 }
