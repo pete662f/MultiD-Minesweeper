@@ -10,14 +10,15 @@ namespace MultiD_Minesweeper
     internal class Core
     {
         public Core() { }
-        public int[,] Game(int dim = 2, int size = 10, int number_of_mines = 15)
+        public int[,,] Game(int dim = 3, int size = 10, int number_of_mines = 150)
         {
             var random = new Random();
 
-            int[,] grid = new int[size, size]; 
+            int[,,] grid = new int[size, size, size];
 
             int n = grid.GetLength(0);
             int m = grid.GetLength(1);
+            int o = grid.GetLength(2);
 
 
             // Initialize all cells to 0
@@ -25,39 +26,47 @@ namespace MultiD_Minesweeper
             {
                 for (int j = 0; j < m; j++)
                 {
-                    grid[i, j] = 0;
+                    for (int l = 0; l < 0; l++)
+                    {
+                        grid[i, j, l] = 0;
+                    }
                 }
             }
 
             for (int k = 1; k <= number_of_mines; k++)
             {
                 // Get random mine_x and mine_y where grid(mine_x, mine_y) is not a mine
-                int mine_x, mine_y;
+                int mine_x, mine_y, mine_z;
                 do
                 {
                     mine_x = random.Next(0, n);
                     mine_y = random.Next(0, m);
-                } while (grid[mine_x, mine_y] < 0); // negative value = mine
+                    mine_z = random.Next(0, o);
+                } while (grid[mine_x, mine_y, mine_z] < 0); // negative value = mine
 
                 // Place mine and update neighboring cells
                 for (int x = -1; x <= 1; x++)
                 {
                     for (int y = -1; y <= 1; y++)
                     {
-                        if (x == 0 && y == 0)
+                        for (int z = -1; z <= 1; z++)
                         {
-                            grid[mine_x, mine_y] = -number_of_mines; // negative value = mine
-                        }
-                        else
-                        {
-
-                            // check the bounds of the array
-                            int new_x = mine_x + x;
-                            int new_y = mine_y + y;
-                            if (new_x >= 0 && new_x < n && new_y >= 0 && new_y < m)
+                            if (x == 0 && y == 0 && z == 0)
                             {
-                                // increment the cell value by 1
-                                grid[new_x, new_y]++;
+                                grid[mine_x, mine_y, mine_z] = -number_of_mines; // negative value = mine
+                            }
+                            else
+                            {
+
+                                // check the bounds of the array
+                                int new_x = mine_x + x;
+                                int new_y = mine_y + y;
+                                int new_z = mine_z + z;
+                                if (new_x >= 0 && new_x < n && new_y >= 0 && new_y < m && new_z >= 0 && new_z < o)
+                                {
+                                    // increment the cell value by 1
+                                    grid[new_x, new_y, new_z]++;
+                                }
                             }
                         }
                     }
