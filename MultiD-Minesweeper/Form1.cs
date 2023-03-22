@@ -31,19 +31,21 @@ namespace MultiD_Minesweeper
             InitializeComponent();
             orderX = orderX.OrderBy(x => randomX.Next()).ToArray();
             orderY = orderY.OrderBy(x => randomY.Next()).ToArray();
+            //hide the tab pages and open the menu page
             tabControl1.TabPages.Clear();
             tabControl1.TabPages.Insert(0, tabPageMenu);
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-
+            //Save the numbers from the input, cause errors if it isn't numbers
             bool errorNum = int.TryParse(textBoxDimensions.Text, out dimensions);
             if (errorNum == true)
                 errorNum = int.TryParse(textBoxLength.Text, out length);
             if (errorNum == true)
                 errorNum = int.TryParse(textBoxMines.Text, out mines);
 
+            //check if the amount of mines is more than the amount of tiles
             bool errorMines = true;
             if (mines >= Math.Pow(length, dimensions))
                 errorMines = false;
@@ -51,10 +53,11 @@ namespace MultiD_Minesweeper
 
             if(errorNum == true && errorMines == true)
             {
+                //Change the active page
                 tabControl1.TabPages.Clear();
                 tabControl1.TabPages.Insert(0, tabPageGame);
 
-                //generate the game board
+                //generate the game board in the game tab
                 for (int j = 0; j < YMax; j++)
                 {
                     for (int i = 0; i < XMax; i++)
@@ -84,12 +87,14 @@ namespace MultiD_Minesweeper
 
         private void buttonPlay_Click(object sender, EventArgs e)
         {
+            //change the active tab to play
             tabControl1.TabPages.Clear();
             tabControl1.TabPages.Insert(0, tabPagePlay);
         }
 
         private void buttonSettings_Click(object sender, EventArgs e)
         {
+            //change the active tab to settings
             tabControl1.TabPages.Clear();
             tabControl1.TabPages.Insert(0, tabPageSettings);
         }
