@@ -62,20 +62,22 @@ namespace MultiD_Minesweeper
                     {
                         for (int z = -1; z <= 1; z++)
                         {
+                            // Place mine at center
                             if (x == 0 && y == 0 && z == 0)
                             {
-                                grid[mine_x, mine_y, mine_z] = -number_of_mines; // negative value = mine
+                                grid[mine_x, mine_y, mine_z] = -number_of_mines; // Negative value = mine
                             }
+                            // Update neighboring cells
                             else
                             {
 
-                                // check the bounds of the array
+                                // Check the bounds of the array
                                 int new_x = mine_x + x;
                                 int new_y = mine_y + y;
                                 int new_z = mine_z + z;
                                 if (new_x >= 0 && new_x < n && new_y >= 0 && new_y < m && new_z >= 0 && new_z < o)
                                 {
-                                    // increment the cell value by 1
+                                    // Increment the cell value by 1
                                     grid[new_x, new_y, new_z]++;
                                 }
                             }
