@@ -17,8 +17,6 @@ namespace MultiD_Minesweeper
         int mines;
         Core core = new Core(); //Initiate core.cs
 
-        int count = 1; //what number the button is
-
         public Form1()
         {
             InitializeComponent();
@@ -41,20 +39,33 @@ namespace MultiD_Minesweeper
             bool errorMines = true;
             if (mines >= Math.Pow(length, dimensions))
                 errorMines = false;
-                
 
-            if(errorNum == true && errorMines == true)
+            if (errorNum == true && errorMines == true)
             {
+                
+                //Hide the text
+                labelLoss.Visible = false;
+                labelWin.Visible = false;
+
                 //Change the active page
                 tabControl1.TabPages.Clear();
                 tabControl1.TabPages.Insert(0, tabPageGame);
 
-                //Change the size of the window to maximized
+                //Make variables for later use
+                int nonBombsFound = 0;
+                int progressBarOverdrawn = 0;
+
+                //Change the size of the window to maximized and place everything correctly
                 this.MaximumSize = new Size(0, 0);
                 this.WindowState = FormWindowState.Maximized;
                 this.MinimumSize = this.Size;
                 this.MaximumSize = this.Size;
                 tabControl1.Size = this.MaximumSize - new Size(15, 85);
+                progressBar1.Location = new Point((this.MaximumSize.Width - 30)/2 - progressBar1.Width/2, 10);
+                progressBar1.Maximum = mines;
+                labelLoss.Location = new Point((this.MaximumSize.Width - 30) / 2 - labelLoss.Width / 2, (this.MaximumSize.Height - 40) / 2 - labelLoss.Height / 2);
+                labelWin.Location = new Point((this.MaximumSize.Width - 30) / 2 - labelWin.Width / 2, (this.MaximumSize.Height - 40) / 2 - labelWin.Height / 2);
+
 
                 //Create a game board to use
                 int[,,] gameBoard = core.Game(dimensions, length, mines);
@@ -67,6 +78,7 @@ namespace MultiD_Minesweeper
                         for (int i = 0; i < length; i++)
                         {
                             Button b = new Button();
+                            /*
                             if (gameBoard[i, j, k] < 0)
                             {
                                 b.Text = "Bomb";
@@ -74,9 +86,67 @@ namespace MultiD_Minesweeper
                             {
                                 b.Text = gameBoard[i, j, k].ToString();
                             }
-                            b.Name = count.ToString(); //Name the button so you can find it's coordinates again later
+                            */
+                            int tempVal = gameBoard[i, j, k]; //Assigns the value of the button to a temporary variable to later print it when the button is pressed
+                            b.Name = $"{i},{j},{k}"; //Name the button so you can find it's coordinates again later
+                            //MessageBox.Show(b.Name);
                             b.Size = new Size(35, 35); //Give the button a size
-                            b.Location = new Point(10 + 40 * i + 40 * length * k + 20 * k, 10 + 40 * j); //Give the button a location based on it's coordinates
+                            b.Location = new Point(10 + 35 * i + 35 * length * k + 15 * k, 35 + 35 * j); //Give the button a location based on it's coordinates
+                            b.FlatAppearance.BorderSize = 1; //Gives the button a border
+                            b.BackColor = Color.DarkGray; //Changes the background color of the button
+                            //Adds a function to the button that triggers when a mouse button is pressed
+                            b.MouseDown += (sender2, e2) =>
+                            {
+                                if (b.Text == "") //Checks if the button has been pressed before
+                                {
+                                    if (e2.Button == MouseButtons.Left) //Checks if the mouse button pressed was left click
+                                    {
+                                        string value; //Makes an empty string to store the value of the button
+                                        if (tempVal < 0) //Checks if the button has a negative value and is therefore a bomb
+                                        {
+                                            value = "Bomb"; //Assigns the string bomb to the value of the button
+                                            labelLoss.Visible = true;
+                                        }
+                                        else
+                                        {
+                                            value = tempVal.ToString(); //Assigns the number of bombs adjacent to this button to the value of the button
+                                            nonBombsFound += 1;
+                                            if (nonBombsFound == Math.Pow(length, dimensions) - mines)
+                                            {
+                                                labelWin.Visible = true;
+                                            }
+                                        }
+                                        //MessageBox.Show(value.ToString());
+                                        b.BackColor = Color.LightGray; //Changes the background color of the button
+                                        b.Text = value; //Shows the value of the button as text on the button.
+                                    } else if (e2.Button == MouseButtons.Right) //Checks if the mouse button pressed was right click
+                                    {
+                                        b.Text = "Flag"; //Assigns the text flag to the button
+                                        if (progressBar1.Value < progressBar1.Maximum)
+                                        {
+                                            progressBar1.Value += 1;
+                                        } else
+                                        {
+                                            progressBarOverdrawn += 1;
+                                        }
+                                    }
+                                } else if (b.Text == "Flag") //Checks if the button is flagged
+                                {
+                                    if (e2.Button == MouseButtons.Right) //Checks if the mouse button pressed was right click
+                                    {
+                                        b.Text = ""; //Removes the flag from the button
+                                        if (progressBarOverdrawn == 0)
+                                        {
+                                            progressBar1.Value -= 1;
+                                        } else
+                                        {
+                                            progressBarOverdrawn -= 1;
+                                        }
+                                    }
+                                }
+
+                            };
+
                             tabPageGame.Controls.Add(b); //Add the previous information to the button to place it
                         }
                     }
@@ -107,6 +177,13 @@ namespace MultiD_Minesweeper
             //change the active tab to settings
             tabControl1.TabPages.Clear();
             tabControl1.TabPages.Insert(0, tabPageSettings);
+        }
+
+        private void buttonBackSettings_Click(object sender, EventArgs e)
+        {
+            //change the active tab to settings
+            tabControl1.TabPages.Clear();
+            tabControl1.TabPages.Insert(0, tabPageMenu);
         }
     }
 }
