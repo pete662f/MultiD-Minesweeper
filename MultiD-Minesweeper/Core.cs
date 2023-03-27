@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -10,81 +12,87 @@ namespace MultiD_Minesweeper
     internal class Core
     {
         public Core() { }
-        public int[,,] Game(int dim = 3, int size = 10, int number_of_mines = 150)
+
+        // Store the grid as a dictionary with string keys representing n-dimensional coordinates
+        static Dictionary<string, int> grid = new Dictionary<string, int>();
+
+        // Generate a key for the dictionary based on the coordinates
+        static string Key(params int[] coordinates)
         {
-            var random = new Random();
+            return string.Join(",", coordinates);
+        }
 
-            int xSize = 1, ySize = 1, zSize = 1;
-
-            if (dim == 2)
+        // Increment the adjacent cells recursively for each dimension
+        static void IncrementAdjacent(int[] coordinates, int dimensions, int size)
+        {
+            if (dimensions == 0) // Base case: when dimensions reach 0, we're at the target cell
             {
-                xSize = size; ySize = size;
-            }
-            else if (dim == 3)
-            {
-                xSize = size; ySize = size; zSize = size;
-            }
-            
-            int[,,] grid = new int[xSize, ySize, zSize];
-            
-            int n = grid.GetLength(0);
-            int m = grid.GetLength(1);
-            int o = grid.GetLength(2);
-
-
-            // Initialize all cells to 0
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = 0; j < m; j++)
+                // If the cell does not exist in the grid, initialize it to 0
+                if (!grid.ContainsKey(Key(coordinates)))
                 {
-                    for (int l = 0; l < 0; l++)
-                    {
-                        grid[i, j, l] = 0;
-                    }
+                    grid[Key(coordinates)] = 0;
                 }
+
+                // If the cell is not a mine, increment its value
+                if (grid[Key(coordinates)] >= 0)
+                {
+                    grid[Key(coordinates)]++;
+                }
+                return;
             }
 
-            for (int k = 1; k <= number_of_mines; k++)
+            // Iterate through each dimension recursively
+            for (int i = -1; i <= 1; i++)
             {
-                // Get random mine_x and mine_y where grid(mine_x, mine_y) is not a mine
-                int mine_x, mine_y, mine_z;
+                // Create a new set of coordinates based on the input coordinates
+                int[] newCoordinates = new int[coordinates.Length];
+                // Copy the input coordinates into the new set of coordinates
+                Array.Copy(coordinates, newCoordinates, coordinates.Length);
+                // Modify the current dimension's coordinate by adding the loop variable 'i'
+                newCoordinates[dimensions - 1] += i;
+                // Skip if newCoordinates is out of the grid
+                if (newCoordinates[dimensions - 1] == -1 || newCoordinates[dimensions - 1] == size)
+                {
+                    continue;
+                }
+                // Call the IncrementAdjacent method recursively with the new set of coordinates and decremented dimensions
+                IncrementAdjacent(newCoordinates, dimensions - 1, size);
+            }
+        }
+
+        // The function that get called and returns the grid
+        public static Dictionary<string, int> GetGrid(int dimensions, int size, int number_of_mines)
+        {
+            GenerateGrid(dimensions, size, number_of_mines);
+            return grid;
+        }
+
+        static void GenerateGrid(int dimensions, int size, int number_of_mines)
+        {
+            Random random = new Random();
+
+            // Place mines and increment adjacent cells
+            for (int k = 0; k < number_of_mines; k++)
+            {
+                int[] mineCoordinates;
                 do
                 {
-                    mine_x = random.Next(0, n);
-                    mine_y = random.Next(0, m);
-                    mine_z = random.Next(0, o);
-                } while (grid[mine_x, mine_y, mine_z] < 0); // negative value = mine
-
-                // Place mine and update neighboring cells
-                for (int x = -1; x <= 1; x++)
-                {
-                    for (int y = -1; y <= 1; y++)
+                    // Generate random coordinates for each dimension
+                    mineCoordinates = new int[dimensions];
+                    for (int i = 0; i < dimensions; i++)
                     {
-                        for (int z = -1; z <= 1; z++)
-                        {
-                            if (x == 0 && y == 0 && z == 0)
-                            {
-                                grid[mine_x, mine_y, mine_z] = -number_of_mines; // negative value = mine
-                            }
-                            else
-                            {
-
-                                // check the bounds of the array
-                                int new_x = mine_x + x;
-                                int new_y = mine_y + y;
-                                int new_z = mine_z + z;
-                                if (new_x >= 0 && new_x < n && new_y >= 0 && new_y < m && new_z >= 0 && new_z < o)
-                                {
-                                    // increment the cell value by 1
-                                    grid[new_x, new_y, new_z]++;
-                                }
-                            }
-                        }
+                        mineCoordinates[i] = random.Next(size); // Set the max random value to max size of dimension
                     }
-                }
 
+                    // Makes sure there is not a already a mine
+                } while (grid.ContainsKey(Key(mineCoordinates)) && grid[Key(mineCoordinates)] < 0);
+
+                // Set the mine at the generated coordinates
+                grid[Key(mineCoordinates)] = -number_of_mines;
+
+                // Increment the adjacent cells' values
+                IncrementAdjacent(mineCoordinates, dimensions, size);
             }
-            return grid;
         }
     }
 }
