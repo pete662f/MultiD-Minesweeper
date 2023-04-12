@@ -16,6 +16,8 @@ namespace MultiD_Minesweeper
         int length;
         int mines;
         Core core = new Core(); //Initiate core.cs
+        Image empty;
+        Image thumbNailImage;
 
         public Form1()
         {
@@ -97,31 +99,58 @@ namespace MultiD_Minesweeper
                             //Adds a function to the button that triggers when a mouse button is pressed
                             b.MouseDown += (sender2, e2) =>
                             {
-                                if (b.Text == "") //Checks if the button has been pressed before
+                                if (b.Text == "" && b.Image == empty) //Checks if the button has been pressed before
                                 {
                                     if (e2.Button == MouseButtons.Left) //Checks if the mouse button pressed was left click
                                     {
                                         string value; //Makes an empty string to store the value of the button
                                         if (tempVal < 0) //Checks if the button has a negative value and is therefore a bomb
                                         {
-                                            value = "Bomb"; //Assigns the string bomb to the value of the button
+                                            //Place an image of a bomb in the button
+                                            Image ogImage = Properties.Resources.Bomb;
+                                            Image bombThumbNailImage = new Bitmap(ogImage, new Size(b.Width - 8, b.Height - 8));
+                                            b.Image = bombThumbNailImage;
+                                            b.ImageAlign = ContentAlignment.MiddleLeft;
+
+                                            //Show the label loss
                                             labelLoss.Visible = true;
                                         }
                                         else
                                         {
-                                            value = tempVal.ToString(); //Assigns the number of bombs adjacent to this button to the value of the button
+                                            b.Text = tempVal.ToString(); //Shows the value of the button as text on the button.
                                             nonBombsFound += 1;
                                             if (nonBombsFound == Math.Pow(length, dimensions) - mines)
                                             {
                                                 labelWin.Visible = true;
                                             }
+                                            if (tempVal == 0)
+                                            {
+                                                // Assuming the parent control is the form
+                                                Form parentForm = this;
+
+
+                                                // Assuming the name of the button you want to trigger is "button2"
+                                                string button2Name = "0,0,0";
+
+                                                // Find the button2 control using its name
+                                                Button button2 = parentForm.Controls.Find(button2Name, true).FirstOrDefault() as Button;
+
+
+                                                // Call the MouseDown event handler of button2
+                                                button2?.PerformClick();
+                                            }
                                         }
                                         //MessageBox.Show(value.ToString());
                                         b.BackColor = Color.LightGray; //Changes the background color of the button
-                                        b.Text = value; //Shows the value of the button as text on the button.
+                                        
                                     } else if (e2.Button == MouseButtons.Right) //Checks if the mouse button pressed was right click
                                     {
-                                        b.Text = "Flag"; //Assigns the text flag to the button
+                                        //Place an image of a flag in the button
+                                        Image ogImage = Properties.Resources.Flag;
+                                        thumbNailImage = new Bitmap(ogImage, new Size(b.Width - 8, b.Height - 8));
+                                        b.Image = thumbNailImage;
+                                        b.ImageAlign = ContentAlignment.MiddleLeft;
+
                                         if (progressBar1.Value < progressBar1.Maximum)
                                         {
                                             progressBar1.Value += 1;
@@ -130,11 +159,11 @@ namespace MultiD_Minesweeper
                                             progressBarOverdrawn += 1;
                                         }
                                     }
-                                } else if (b.Text == "Flag") //Checks if the button is flagged
+                                } else if (b.Image == thumbNailImage) //Checks if the button is flagged
                                 {
                                     if (e2.Button == MouseButtons.Right) //Checks if the mouse button pressed was right click
                                     {
-                                        b.Text = ""; //Removes the flag from the button
+                                        b.Image = empty; //Removes the flag from the button
                                         if (progressBarOverdrawn == 0)
                                         {
                                             progressBar1.Value -= 1;
