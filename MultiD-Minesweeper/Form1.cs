@@ -79,16 +79,7 @@ namespace MultiD_Minesweeper
                     {
                         for (int i = 0; i < length; i++)
                         {
-                            Button b = new Button();
-                            /*
-                            if (gameBoard[i, j, k] < 0)
-                            {
-                                b.Text = "Bomb";
-                            } else
-                            {
-                                b.Text = gameBoard[i, j, k].ToString();
-                            }
-                            */
+                            CustomButton b = new CustomButton(); //Makes a button
                             int tempVal = gameBoard[i, j, k]; //Assigns the value of the button to a temporary variable to later print it when the button is pressed
                             b.Name = $"{i},{j},{k}"; //Name the button so you can find it's coordinates again later
                             //MessageBox.Show(b.Name);
@@ -133,11 +124,18 @@ namespace MultiD_Minesweeper
                                                 string button2Name = "0,0,0";
 
                                                 // Find the button2 control using its name
-                                                Button button2 = parentForm.Controls.Find(button2Name, true).FirstOrDefault() as Button;
+                                                CustomButton button2 = parentForm.Controls.Find(button2Name, true).FirstOrDefault() as CustomButton;
 
+                                                if (button2 != null)
+                                                {
+                                                    //Makes args for left-clicking button2
+                                                    MouseEventArgs args = new MouseEventArgs(MouseButtons.Left, 1, button2.Location.X, button2.Location.Y, 0);
 
-                                                // Call the MouseDown event handler of button2
-                                                button2?.PerformClick();
+                                                    // Call the MouseDown event handler of button2
+                                                    button2.TriggerMouseDown(args);
+                                                }
+
+                                                
                                             }
                                         }
                                         //MessageBox.Show(value.ToString());
