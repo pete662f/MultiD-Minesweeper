@@ -56,6 +56,40 @@ namespace MultiD_Minesweeper
                 this.MaximumSize = this.Size;
                 tabControl1.Size = this.MaximumSize - new Size(15, 85);
 
+                //Temporary int array to store the coordinates of the button while testing the calculations of the position
+                Dictionary<string, int> gameGrid = Core.GetGrid(dimensions, length, mines);
+
+                //Temporary
+                int intLength = 5;
+                int[] test = new int[intLength];
+
+                //Initiates variables with starting position of the button
+                int xCoord = 0;
+                int yCoord = 0;
+
+                //Initiates variables with the size of the button
+                int xCoordMult = 35;
+                int yCoordMult = 35;
+
+                //Calculates the x position of the button
+                for (int xC = 0; xC < intLength; xC += 2)
+                {
+                    xCoord += test[xC] * xCoordMult;
+                    xCoordMult += length * xCoordMult + 10 * (xC + 2);
+                }
+
+                //Calculates the y position of the button
+                for (int yC = 0; yC < intLength; yC += 2)
+                {
+                    yCoord += test[yC] * yCoordMult;
+                    yCoordMult += length * yCoordMult + 10 * (yC + 2);
+                }
+
+                //Makes a point variable with the location of the button
+                Point location = new Point(xCoord, yCoord);
+
+
+                /*
                 //Create a game board to use
                 int[,,] gameBoard = core.Game(dimensions, length, mines);
 
@@ -80,7 +114,8 @@ namespace MultiD_Minesweeper
                             tabPageGame.Controls.Add(b); //Add the previous information to the button to place it
                         }
                     }
-                }
+                
+                }*/
             }
             else if(errorNum == false)
             {
