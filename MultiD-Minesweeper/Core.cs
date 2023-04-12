@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.Serialization.Formatters;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,7 +16,7 @@ namespace MultiD_Minesweeper
 
         // Store the grid as a dictionary with string keys representing n-dimensional coordinates
         static Dictionary<string, int> grid = new Dictionary<string, int>();
-
+         
         // Generate a key for the dictionary based on the coordinates
         static string Key(params int[] coordinates)
         {
@@ -60,6 +61,28 @@ namespace MultiD_Minesweeper
             }
         }
 
+        // Initialize all cells in the grid to 0
+        static void InitializeGrid(int[] coordinates, int dimensions, int size)
+        {
+            if (dimensions == 0) // Base case: when dimensions reach 0, we're at the target cell
+            {
+                grid[Key(coordinates)] = 0; // Set the value of the target cell to 0
+                return;
+            }
+
+            // Iterate through each dimension recursively
+            for (int i = 0; i < size; i++)
+            {
+                int[] newCoordinates = new int[coordinates.Length];
+                // Copy the input coordinates into the new set of coordinates
+                Array.Copy(coordinates, newCoordinates, coordinates.Length);
+                // Modify the current dimension's coordinate by setting it to the loop variable 'i'
+                newCoordinates[dimensions - 1] = i;
+                // Call the InitializeGrid method recursively with the new set of coordinates and decremented dimensions
+                InitializeGrid(newCoordinates, dimensions - 1, size);
+            }
+        }
+
         // The function that get called and returns the grid
         public static Dictionary<string, int> GetGrid(int dimensions, int size, int number_of_mines)
         {
@@ -70,6 +93,9 @@ namespace MultiD_Minesweeper
         static void GenerateGrid(int dimensions, int size, int number_of_mines)
         {
             Random random = new Random();
+
+            // Initialize all cells to 0 before placing mines and incrementing adjacent cells
+            InitializeGrid(new int[dimensions], dimensions, size);
 
             // Place mines and increment adjacent cells
             for (int k = 0; k < number_of_mines; k++)
@@ -88,7 +114,7 @@ namespace MultiD_Minesweeper
                 } while (grid.ContainsKey(Key(mineCoordinates)) && grid[Key(mineCoordinates)] < 0);
 
                 // Set the mine at the generated coordinates
-                grid[Key(mineCoordinates)] = -number_of_mines;
+                grid[Key(mineCoordinates)] = -1;
 
                 // Increment the adjacent cells' values
                 IncrementAdjacent(mineCoordinates, dimensions, size);
