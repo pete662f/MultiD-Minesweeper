@@ -62,7 +62,7 @@ namespace MultiD_Minesweeper
         }
 
         // Generates all possible coordinate combinations in the n-dimensional grid
-        static IEnumerable<int[]> AllCoordinateCombinations(int[] coordinates, int dimensions, int[] size)
+        static IEnumerable<int[]> AllCoordinateCombinations(int[] coordinates, int dimensions, int size)
         {
             if (dimensions == 0) // Base case: when dimensions reach 0, we're at a valid coordinate combination
             {
@@ -72,7 +72,7 @@ namespace MultiD_Minesweeper
             else
             {
                 // Iterate through each dimension recursively
-                for (int i = 0; i < size[dimensions - 1]; i++)
+                for (int i = 0; i < size; i++)
                 {
                     int[] newCoordinates = new int[coordinates.Length];
                     // Copy the input coordinates into the new set of coordinates
