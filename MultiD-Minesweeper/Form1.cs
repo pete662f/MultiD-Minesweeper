@@ -56,66 +56,51 @@ namespace MultiD_Minesweeper
                 this.MaximumSize = this.Size;
                 tabControl1.Size = this.MaximumSize - new Size(15, 85);
 
-                //Temporary int array to store the coordinates of the button while testing the calculations of the position
-                Dictionary<string, int> gameGrid = Core.GetGrid(dimensions, length, mines);
-
-                //Temporary
-                int intLength = 5;
-                int[] test = new int[intLength];
+                //Generate the game board
+                Dictionary<int[], int> gameGrid = Core.GetGrid(dimensions, length, mines);
 
                 //Initiates variables with starting position of the button
-                int xCoord = 0;
-                int yCoord = 0;
+                int xCoord;
+                int yCoord;
 
                 //Initiates variables with the size of the button
-                int xCoordMult = 35;
-                int yCoordMult = 35;
+                int xCoordMult;
+                int yCoordMult;
 
-                //Calculates the x position of the button
-                for (int xC = 0; xC < intLength; xC += 2)
+                foreach (int[] key in gameGrid.Keys)
                 {
-                    xCoord += test[xC] * xCoordMult;
-                    xCoordMult += length * xCoordMult + 10 * (xC + 2);
-                }
+                    //reset values
+                    xCoordMult = 35;
+                    yCoordMult = 35;
+                    xCoord = 0;
+                    yCoord = 0;
 
-                //Calculates the y position of the button
-                for (int yC = 0; yC < intLength; yC += 2)
-                {
-                    yCoord += test[yC] * yCoordMult;
-                    yCoordMult += length * yCoordMult + 10 * (yC + 2);
-                }
+                    Button b = new Button();
 
-                //Makes a point variable with the location of the button
-                Point location = new Point(xCoord, yCoord);
-
-
-                /*
-                //Create a game board to use
-                int[,,] gameBoard = core.Game(dimensions, length, mines);
-
-                //generate the game board in the game tab
-                for (int k = 0; k < gameBoard.GetLength(2); k++)
-                {
-                    for (int j = 0; j < length; j++)
+                    //Calculates the x position of the button
+                    for (int xC = 0; xC < dimensions; xC += 2)
                     {
-                        for (int i = 0; i < length; i++)
-                        {
-                            Button b = new Button();
-                            if (gameBoard[i, j, k] < 0)
-                            {
-                                b.Text = "Bomb";
-                            } else
-                            {
-                                b.Text = gameBoard[i, j, k].ToString();
-                            }
-                            b.Name = count.ToString(); //Name the button so you can find it's coordinates again later
-                            b.Size = new Size(35, 35); //Give the button a size
-                            b.Location = new Point(10 + 40 * i + 40 * length * k + 20 * k, 10 + 40 * j); //Give the button a location based on it's coordinates
-                            tabPageGame.Controls.Add(b); //Add the previous information to the button to place it
-                        }
+                        xCoord += key[xC] * xCoordMult;
+                        xCoordMult += xCoordMult * length + 5 * (xC + 1);
                     }
+
+                    //Calculates the y position of the button
+                    for (int yC = 1; yC < dimensions; yC += 2)
+                    {
+                        yCoord += key[yC] * yCoordMult;
+                        yCoordMult += yCoordMult * length + 5 * (yC + 1);
+                    }
+
+                    //Makes a point variable with the location of the button
+                    b.Location = new Point(xCoord, yCoord);
+                    b.Size = new Size(35, 35); //Give the button a size
+                    int value = gameGrid[key];
+                    b.Text = value.ToString();
+                    tabPageGame.Controls.Add(b); //Add the previous information to the button to place it
+
+                }
                 
-                }*/
+                
             }
             else if(errorNum == false)
             {
