@@ -39,11 +39,36 @@ namespace MultiD_Minesweeper
 
             //check if the amount of mines is more than the amount of tiles
             bool errorMines = true;
+            bool errorMinesMin = true;
+            bool errorSize = true;
             if (mines >= Math.Pow(length, dimensions))
                 errorMines = false;
-                
+            if (mines < 1)
+                errorMinesMin = false;
+            if (Math.Pow(length, dimensions) > 9900)
+                errorSize = false;
 
-            if(errorNum == true && errorMines == true)
+            if (errorNum == false)
+            {
+                //Show error if it couldn't parse the numbers
+                MessageBox.Show("Error, try again with real numbers", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else if (errorMines == false)
+            {
+                //Show error if the number of mines exceeds the number of tiles
+                MessageBox.Show("Error, too many mines", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else if (errorMinesMin == false)
+            {
+                //Show error if the number of mines exceeds the number of tiles
+                MessageBox.Show("Error, too few mines. Mines must be at least 1", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else if (errorSize == false)
+            {
+                //Show error if the number of mines exceeds the number of tiles
+                MessageBox.Show("Error, too big game board. Number of tiles must not exceed 9900. You had " + Math.Pow(length, dimensions) + " tiles", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
             {
                 //Change the active page
                 tabControl1.TabPages.Clear();
@@ -101,16 +126,6 @@ namespace MultiD_Minesweeper
                 }
                 
                 
-            }
-            else if(errorNum == false)
-            {
-                //Show error if it couldn't parse the numbers
-                MessageBox.Show("Error, try again with real numbers", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else if (errorMines == false)
-            {
-                //Show error if the number of mines exceeds the number of tiles
-                MessageBox.Show("Error, too many mines", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
         }
