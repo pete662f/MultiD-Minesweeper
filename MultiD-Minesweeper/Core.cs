@@ -15,12 +15,12 @@ namespace MultiD_Minesweeper
         public Core() { }
 
         // Store the grid as a dictionary with string keys representing n-dimensional coordinates
-        static Dictionary<string, int> grid = new Dictionary<string, int>();
+        static Dictionary<int[], int> grid = new Dictionary<int[], int>();
          
         // Generate a key for the dictionary based on the coordinates
-        static string Key(params int[] coordinates)
+        static int[] Key(params int[] coordinates)
         {
-            return string.Join(",", coordinates);
+            return coordinates;
         }
 
         // Increment the adjacent cells recursively for each dimension
@@ -90,7 +90,7 @@ namespace MultiD_Minesweeper
 
 
         // The function that get called and returns the grid
-        public static Dictionary<string, int> GetGrid(int dimensions, int size, int number_of_mines)
+        public static Dictionary<int[], int> GetGrid(int dimensions, int size, int number_of_mines)
         {
             GenerateGrid(dimensions, size, number_of_mines);
             return grid;
