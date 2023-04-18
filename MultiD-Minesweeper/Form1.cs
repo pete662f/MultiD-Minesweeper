@@ -15,13 +15,11 @@ namespace MultiD_Minesweeper
         int dimensions;
         int length;
         int mines;
-        Core core = new Core(); //Initiate core.cs
         Image empty;
         Image thumbNailImage;
 
         //Make variables for later use
         int nonBombsFound = 0;
-        int progressBarOverdrawn = 0;
 
         public Form1()
         {
@@ -90,8 +88,6 @@ namespace MultiD_Minesweeper
                 this.MinimumSize = this.Size;
                 this.MaximumSize = this.Size;
                 tabControl1.Size = this.MaximumSize - new Size(15, 85);
-                progressBar1.Location = new Point((this.MaximumSize.Width - 30)/2 - progressBar1.Width/2, 10);
-                progressBar1.Maximum = mines;
                 labelLoss.Location = new Point((this.MaximumSize.Width - 30) / 2 - labelLoss.Width / 2, (this.MaximumSize.Height - 40) / 2 - labelLoss.Height / 2);
                 labelWin.Location = new Point((this.MaximumSize.Width - 30) / 2 - labelWin.Width / 2, (this.MaximumSize.Height - 40) / 2 - labelWin.Height / 2);
 
@@ -115,7 +111,7 @@ namespace MultiD_Minesweeper
                     xCoord = 0;
                     yCoord = 0;
 
-                    Button b = new Button();
+                    CustomButton b = new CustomButton(); //Makes a button
 
                     //Calculates the x position of the button
                     for (int xC = 0; xC < dimensions; xC += 2)
@@ -131,34 +127,18 @@ namespace MultiD_Minesweeper
                         yCoord += key[yC] * yCoordMult;
                         yCoordMult += yCoordMult * length + 5 * (yC + 1);
 
-                        /*
-                        for (int i = 0; i < length; i++)
-                        {
-                            CustomButton b = new CustomButton(); //Makes a button
-                            int tempVal = gameBoard[i, j, k]; //Assigns the value of the button to a temporary variable to later print it when the button is pressed
-                            b.Name = $"{i},{j},{k}"; //Name the button so you can find it's coordinates again later
-                            //MessageBox.Show(b.Name);
-                            b.Size = new Size(35, 35); //Give the button a size
-                            b.Location = new Point(10 + 35 * i + 35 * length * k + 15 * k, 35 + 35 * j); //Give the button a location based on it's coordinates
-                            b.FlatAppearance.BorderSize = 1; //Gives the button a border
-                            b.BackColor = Color.DarkGray; //Changes the background color of the button
-                            //Adds a function to the button that triggers when a mouse button is pressed
-                            b.MouseDown += (sender2, e2) =>
-                            {
-                                buttonTrigger_Click(sender2, e2, b, tempVal);
-                            };
-                            
-
-                            tabPageGame.Controls.Add(b); //Add the previous information to the button to place it
-                        }*/
-
                     }
 
                     //Makes a point variable with the location of the button
                     b.Location = new Point(xCoord, yCoord);
                     b.Size = new Size(35, 35); //Give the button a size
-                    int value = gameGrid[key];
-                    b.Text = value.ToString();
+                    b.Name = string.Join(",",key); //Gives the button a name corresponding to its coordinates joined by a comma
+                    b.FlatAppearance.BorderSize = 1; //Gives the button a border
+                    b.BackColor = Color.DarkGray; //Changes the background color of the button
+                    b.MouseDown += (sender2, e2) =>
+                    {
+                        buttonTrigger_Click(sender2, e2, b, gameGrid[key]);
+                    };
                     tabPageGame.Controls.Add(b); //Add the previous information to the button to place it
 
                 }
@@ -195,7 +175,6 @@ namespace MultiD_Minesweeper
             {
                 if (e.Button == MouseButtons.Left) //Checks if the mouse button pressed was left click
                 {
-                    string value; //Makes an empty string to store the value of the button
                     if (tempVal < 0) //Checks if the button has a negative value and is therefore a bomb
                     {
                         //Place an image of a bomb in the button
@@ -250,15 +229,6 @@ namespace MultiD_Minesweeper
                     thumbNailImage = new Bitmap(ogImage, new Size(b.Width - 8, b.Height - 8));
                     b.Image = thumbNailImage;
                     b.ImageAlign = ContentAlignment.MiddleLeft;
-
-                    if (progressBar1.Value < progressBar1.Maximum)
-                    {
-                        progressBar1.Value += 1;
-                    }
-                    else
-                    {
-                        progressBarOverdrawn += 1;
-                    }
                 }
             }
             else if (b.Image == thumbNailImage) //Checks if the button is flagged
@@ -266,14 +236,6 @@ namespace MultiD_Minesweeper
                 if (e.Button == MouseButtons.Right) //Checks if the mouse button pressed was right click
                 {
                     b.Image = empty; //Removes the flag from the button
-                    if (progressBarOverdrawn == 0)
-                    {
-                        progressBar1.Value -= 1;
-                    }
-                    else
-                    {
-                        progressBarOverdrawn -= 1;
-                    }
                 }
             }
         }
