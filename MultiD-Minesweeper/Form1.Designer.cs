@@ -43,12 +43,11 @@
             this.buttonPlay = new System.Windows.Forms.Button();
             this.tabPagePlay = new System.Windows.Forms.TabPage();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
+            this.buttonBackSettings = new System.Windows.Forms.Button();
             this.labelSettings = new System.Windows.Forms.Label();
             this.tabPageGame = new System.Windows.Forms.TabPage();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.labelLoss = new System.Windows.Forms.Label();
-            this.buttonBackSettings = new System.Windows.Forms.Button();
             this.labelWin = new System.Windows.Forms.Label();
+            this.labelLoss = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPageMenu.SuspendLayout();
             this.tabPagePlay.SuspendLayout();
@@ -212,6 +211,17 @@
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
             // 
+            // buttonBackSettings
+            // 
+            this.buttonBackSettings.Font = new System.Drawing.Font("Stencil", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonBackSettings.Location = new System.Drawing.Point(18, 14);
+            this.buttonBackSettings.Name = "buttonBackSettings";
+            this.buttonBackSettings.Size = new System.Drawing.Size(161, 95);
+            this.buttonBackSettings.TabIndex = 4;
+            this.buttonBackSettings.Text = "BACK";
+            this.buttonBackSettings.UseVisualStyleBackColor = true;
+            this.buttonBackSettings.Click += new System.EventHandler(this.buttonBackSettings_Click);
+            // 
             // labelSettings
             // 
             this.labelSettings.AutoSize = true;
@@ -228,43 +238,12 @@
             this.tabPageGame.AutoScrollMargin = new System.Drawing.Size(10, 10);
             this.tabPageGame.Controls.Add(this.labelWin);
             this.tabPageGame.Controls.Add(this.labelLoss);
-            this.tabPageGame.Controls.Add(this.progressBar1);
             this.tabPageGame.Location = new System.Drawing.Point(4, 29);
             this.tabPageGame.Name = "tabPageGame";
             this.tabPageGame.Size = new System.Drawing.Size(777, 417);
             this.tabPageGame.TabIndex = 3;
             this.tabPageGame.Text = "Game";
             this.tabPageGame.UseVisualStyleBackColor = true;
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(164, 12);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(450, 30);
-            this.progressBar1.TabIndex = 0;
-            // 
-            // labelLoss
-            // 
-            this.labelLoss.AutoSize = true;
-            this.labelLoss.BackColor = System.Drawing.Color.Black;
-            this.labelLoss.Font = new System.Drawing.Font("Stencil", 100F);
-            this.labelLoss.ForeColor = System.Drawing.Color.White;
-            this.labelLoss.Location = new System.Drawing.Point(64, 102);
-            this.labelLoss.Name = "labelLoss";
-            this.labelLoss.Size = new System.Drawing.Size(994, 237);
-            this.labelLoss.TabIndex = 1;
-            this.labelLoss.Text = "YOU LOSE";
-            // 
-            // buttonBackSettings
-            // 
-            this.buttonBackSettings.Font = new System.Drawing.Font("Stencil", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonBackSettings.Location = new System.Drawing.Point(18, 14);
-            this.buttonBackSettings.Name = "buttonBackSettings";
-            this.buttonBackSettings.Size = new System.Drawing.Size(161, 95);
-            this.buttonBackSettings.TabIndex = 4;
-            this.buttonBackSettings.Text = "BACK";
-            this.buttonBackSettings.UseVisualStyleBackColor = true;
-            this.buttonBackSettings.Click += new System.EventHandler(this.buttonBackSettings_Click);
             // 
             // labelWin
             // 
@@ -277,6 +256,18 @@
             this.labelWin.Size = new System.Drawing.Size(908, 237);
             this.labelWin.TabIndex = 2;
             this.labelWin.Text = "YOU WIN";
+            // 
+            // labelLoss
+            // 
+            this.labelLoss.AutoSize = true;
+            this.labelLoss.BackColor = System.Drawing.Color.Black;
+            this.labelLoss.Font = new System.Drawing.Font("Stencil", 100F);
+            this.labelLoss.ForeColor = System.Drawing.Color.White;
+            this.labelLoss.Location = new System.Drawing.Point(64, 102);
+            this.labelLoss.Name = "labelLoss";
+            this.labelLoss.Size = new System.Drawing.Size(994, 237);
+            this.labelLoss.TabIndex = 1;
+            this.labelLoss.Text = "YOU LOSE";
             // 
             // Form1
             // 
@@ -321,7 +312,6 @@
         private System.Windows.Forms.Button buttonPlay;
         private System.Windows.Forms.Button buttonSettings;
         private System.Windows.Forms.Label labelSettings;
-        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label labelLoss;
         private System.Windows.Forms.Button buttonBackSettings;
         private System.Windows.Forms.Label labelWin;
