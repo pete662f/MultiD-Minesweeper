@@ -10,12 +10,72 @@ using System.Windows.Forms;
 
 namespace MultiD_Minesweeper
 {
+
+
+    
+
     internal class Core
     {
         public Core() { }
 
+        // This class implements the IEqualityComparer interface and is used to compare two arrays of integers
+        public class IntArrayComparer : IEqualityComparer<int[]>
+        {
+            // This method compares two arrays of integers for equality
+            public bool Equals(int[] x, int[] y)
+            {
+                // If either array is null, they are not equal
+                if (x == null || y == null)
+                {
+                    return false;
+                }
+
+                // If the arrays have different lengths, they are not equal
+                if (x.Length != y.Length)
+                {
+                    return false;
+                }
+
+                // Compare each element of the arrays to see if they are equal
+                for (int i = 0; i < x.Length; i++)
+                {
+                    if (x[i] != y[i])
+                    {
+                        return false;
+                    }
+
+                }
+
+                // If we made it here, the arrays are equal
+                return true;
+            }
+
+            // This method generates a hash code for an array of integers
+            public int GetHashCode(int[] obj)
+            {
+                // If the array is null, return 0 as the hash code
+                if (obj == null)
+                {
+                    return 0;
+                }
+
+                // Start with the length of the array as the hash code
+                int hashCode = obj.Length;
+
+                // Multiply the hash code by a prime number (31) and add each element of the array to it
+                for (int i = 0; i < obj.Length; i++)
+                {
+                    hashCode = unchecked(hashCode * 31 + obj[i]);
+                }
+
+                // Return the final hash code
+                return hashCode;
+            }
+        }
+
         // Store the grid as a dictionary with string keys representing n-dimensional coordinates
-        static Dictionary<int[], int> grid = new Dictionary<int[], int>();
+        static Dictionary<int[], int> grid = new Dictionary<int[], int>(new IntArrayComparer());
+
 
         // Increment the adjacent cells recursively for each dimension
         static void IncrementAdjacent(int[] coordinates, int dimensions, int size)
