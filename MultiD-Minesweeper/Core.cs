@@ -16,12 +16,6 @@ namespace MultiD_Minesweeper
 
         // Store the grid as a dictionary with string keys representing n-dimensional coordinates
         static Dictionary<int[], int> grid = new Dictionary<int[], int>();
-         
-        // Generate a key for the dictionary based on the coordinates
-        static int[] Key(params int[] coordinates)
-        {
-            return coordinates;
-        }
 
         // Increment the adjacent cells recursively for each dimension
         static void IncrementAdjacent(int[] coordinates, int dimensions, int size)
@@ -29,15 +23,15 @@ namespace MultiD_Minesweeper
             if (dimensions == 0) // Base case: when dimensions reach 0, we're at the target cell
             {
                 // If the cell does not exist in the grid, initialize it to 0
-                if (!grid.ContainsKey(Key(coordinates)))
+                if (!grid.ContainsKey(coordinates))
                 {
-                    grid[Key(coordinates)] = 0;
+                    grid[coordinates] = 0;
                 }
 
                 // If the cell is not a mine, increment its value
-                if (grid[Key(coordinates)] >= 0)
+                if (grid[coordinates] >= 0)
                 {
-                    grid[Key(coordinates)]++;
+                    grid[coordinates]++;
                 }
                 return;
             }
@@ -112,10 +106,10 @@ namespace MultiD_Minesweeper
                     {
                         mineCoordinates[i] = random.Next(size);
                     }
-                } while (grid.ContainsKey(Key(mineCoordinates)) && grid[Key(mineCoordinates)] < 0);
+                } while (grid.ContainsKey(mineCoordinates) && grid[mineCoordinates] < 0);
 
                 // Set the mine at the generated coordinates
-                grid[Key(mineCoordinates)] = -number_of_mines;
+                grid[mineCoordinates] = -number_of_mines;
 
                 // Increment the adjacent cells' values
                 IncrementAdjacent(mineCoordinates, dimensions, size);
@@ -126,9 +120,9 @@ namespace MultiD_Minesweeper
             foreach (var coordinateCombination in AllCoordinateCombinations(new int[dimensions], dimensions, size))
             {
                 // If a cell has not been initialized (i.e., it's not in the dictionary), set its value to 0
-                if (!grid.ContainsKey(Key(coordinateCombination)))
+                if (!grid.ContainsKey(coordinateCombination))
                 {
-                    grid[Key(coordinateCombination)] = 0;
+                    grid[coordinateCombination] = 0;
                 }
             }
         }
