@@ -61,27 +61,33 @@ namespace MultiD_Minesweeper
             }
         }
 
-        // Initialize all cells in the grid to 0
-        static void InitializeGrid(int[] coordinates, int dimensions, int size)
+        // Generates all possible coordinate combinations in the n-dimensional grid
+        static IEnumerable<int[]> AllCoordinateCombinations(int[] coordinates, int dimensions, int[] size)
         {
-            if (dimensions == 0) // Base case: when dimensions reach 0, we're at the target cell
+            if (dimensions == 0) // Base case: when dimensions reach 0, we're at a valid coordinate combination
             {
-                grid[Key(coordinates)] = 0; // Set the value of the target cell to 0
-                return;
+                // Return the generated coordinate combination
+                yield return coordinates;
             }
-
-            // Iterate through each dimension recursively
-            for (int i = 0; i < size; i++)
+            else
             {
-                int[] newCoordinates = new int[coordinates.Length];
-                // Copy the input coordinates into the new set of coordinates
-                Array.Copy(coordinates, newCoordinates, coordinates.Length);
-                // Modify the current dimension's coordinate by setting it to the loop variable 'i'
-                newCoordinates[dimensions - 1] = i;
-                // Call the InitializeGrid method recursively with the new set of coordinates and decremented dimensions
-                InitializeGrid(newCoordinates, dimensions - 1, size);
+                // Iterate through each dimension recursively
+                for (int i = 0; i < size[dimensions - 1]; i++)
+                {
+                    int[] newCoordinates = new int[coordinates.Length];
+                    // Copy the input coordinates into the new set of coordinates
+                    Array.Copy(coordinates, newCoordinates, coordinates.Length);
+                    // Modify the current dimension's coordinate by setting it to the loop variable 'i'
+                    newCoordinates[dimensions - 1] = i;
+                    // Call the AllCoordinateCombinations method recursively with the new set of coordinates and decremented dimensions
+                    foreach (var coordinateCombination in AllCoordinateCombinations(newCoordinates, dimensions - 1, size))
+                    {
+                        yield return coordinateCombination;
+                    }
+                }
             }
         }
+
 
         // The function that get called and returns the grid
         public static Dictionary<string, int> GetGrid(int dimensions, int size, int number_of_mines)
@@ -94,9 +100,6 @@ namespace MultiD_Minesweeper
         {
             Random random = new Random();
 
-            // Initialize all cells to 0 before placing mines and incrementing adjacent cells
-            InitializeGrid(new int[dimensions], dimensions, size);
-
             // Place mines and increment adjacent cells
             for (int k = 0; k < number_of_mines; k++)
             {
@@ -107,17 +110,26 @@ namespace MultiD_Minesweeper
                     mineCoordinates = new int[dimensions];
                     for (int i = 0; i < dimensions; i++)
                     {
-                        mineCoordinates[i] = random.Next(size); // Set the max random value to max size of dimension
+                        mineCoordinates[i] = random.Next(size);
                     }
-
-                    // Makes sure there is not a already a mine
                 } while (grid.ContainsKey(Key(mineCoordinates)) && grid[Key(mineCoordinates)] < 0);
 
                 // Set the mine at the generated coordinates
-                grid[Key(mineCoordinates)] = -1;
+                grid[Key(mineCoordinates)] = -number_of_mines;
 
                 // Increment the adjacent cells' values
                 IncrementAdjacent(mineCoordinates, dimensions, size);
+            }
+
+            // Initialize the remaining cells to 0
+            // Iterate through all possible coordinate combinations in the n-dimensional grid
+            foreach (var coordinateCombination in AllCoordinateCombinations(new int[dimensions], dimensions, size))
+            {
+                // If a cell has not been initialized (i.e., it's not in the dictionary), set its value to 0
+                if (!grid.ContainsKey(Key(coordinateCombination)))
+                {
+                    grid[Key(coordinateCombination)] = 0;
+                }
             }
         }
     }
