@@ -15,12 +15,12 @@ namespace MultiD_Minesweeper
         public Core() { }
 
         // Store the grid as a dictionary with string keys representing n-dimensional coordinates
-        static Dictionary<string, int> grid = new Dictionary<string, int>();
+        static Dictionary<int[], int> grid = new Dictionary<int[], int>();
          
         // Generate a key for the dictionary based on the coordinates
-        static string Key(params int[] coordinates)
+        static int[] Key(params int[] coordinates)
         {
-            return string.Join(",", coordinates);
+            return coordinates;
         }
 
         // Increment the adjacent cells recursively for each dimension
@@ -62,7 +62,7 @@ namespace MultiD_Minesweeper
         }
 
         // Generates all possible coordinate combinations in the n-dimensional grid
-        static IEnumerable<int[]> AllCoordinateCombinations(int[] coordinates, int dimensions, int[] size)
+        static IEnumerable<int[]> AllCoordinateCombinations(int[] coordinates, int dimensions, int size)
         {
             if (dimensions == 0) // Base case: when dimensions reach 0, we're at a valid coordinate combination
             {
@@ -72,7 +72,7 @@ namespace MultiD_Minesweeper
             else
             {
                 // Iterate through each dimension recursively
-                for (int i = 0; i < size[dimensions - 1]; i++)
+                for (int i = 0; i < size; i++)
                 {
                     int[] newCoordinates = new int[coordinates.Length];
                     // Copy the input coordinates into the new set of coordinates
@@ -90,7 +90,7 @@ namespace MultiD_Minesweeper
 
 
         // The function that get called and returns the grid
-        public static Dictionary<string, int> GetGrid(int dimensions, int size, int number_of_mines)
+        public static Dictionary<int[], int> GetGrid(int dimensions, int size, int number_of_mines)
         {
             GenerateGrid(dimensions, size, number_of_mines);
             return grid;
