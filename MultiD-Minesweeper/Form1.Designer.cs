@@ -48,6 +48,7 @@
             this.tabPageGame = new System.Windows.Forms.TabPage();
             this.labelWin = new System.Windows.Forms.Label();
             this.labelLoss = new System.Windows.Forms.Label();
+            this.buttonReturn = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageMenu.SuspendLayout();
             this.tabPagePlay.SuspendLayout();
@@ -236,6 +237,7 @@
             // 
             this.tabPageGame.AutoScroll = true;
             this.tabPageGame.AutoScrollMargin = new System.Drawing.Size(10, 10);
+            this.tabPageGame.Controls.Add(this.buttonReturn);
             this.tabPageGame.Controls.Add(this.labelWin);
             this.tabPageGame.Controls.Add(this.labelLoss);
             this.tabPageGame.Location = new System.Drawing.Point(4, 29);
@@ -259,15 +261,29 @@
             // 
             // labelLoss
             // 
+            this.labelLoss.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelLoss.AutoSize = true;
             this.labelLoss.BackColor = System.Drawing.Color.Black;
             this.labelLoss.Font = new System.Drawing.Font("Stencil", 100F);
             this.labelLoss.ForeColor = System.Drawing.Color.White;
-            this.labelLoss.Location = new System.Drawing.Point(64, 102);
+            this.labelLoss.Location = new System.Drawing.Point(11, 102);
+            this.labelLoss.Margin = new System.Windows.Forms.Padding(0);
             this.labelLoss.Name = "labelLoss";
             this.labelLoss.Size = new System.Drawing.Size(994, 237);
             this.labelLoss.TabIndex = 1;
             this.labelLoss.Text = "YOU LOSE";
+            // 
+            // buttonReturn
+            // 
+            this.buttonReturn.Font = new System.Drawing.Font("Stencil", 35F);
+            this.buttonReturn.Location = new System.Drawing.Point(263, 30);
+            this.buttonReturn.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonReturn.Name = "buttonReturn";
+            this.buttonReturn.Size = new System.Drawing.Size(444, 144);
+            this.buttonReturn.TabIndex = 3;
+            this.buttonReturn.Text = "Main Menu";
+            this.buttonReturn.UseVisualStyleBackColor = true;
+            this.buttonReturn.Click += new System.EventHandler(this.buttonReturn_Click);
             // 
             // Form1
             // 
@@ -276,8 +292,6 @@
             this.ClientSize = new System.Drawing.Size(778, 444);
             this.Controls.Add(this.tabControl1);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(800, 500);
-            this.MinimumSize = new System.Drawing.Size(800, 500);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
@@ -315,6 +329,7 @@
         private System.Windows.Forms.Label labelLoss;
         private System.Windows.Forms.Button buttonBackSettings;
         private System.Windows.Forms.Label labelWin;
+        private System.Windows.Forms.Button buttonReturn;
     }
 }
 
