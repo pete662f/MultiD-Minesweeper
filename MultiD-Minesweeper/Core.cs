@@ -73,8 +73,8 @@ namespace MultiD_Minesweeper
             }
         }
 
-        // Store the grid as a dictionary with string keys representing n-dimensional coordinates
-        static Dictionary<int[], int> grid = new Dictionary<int[], int>(new IntArrayComparer());
+        // This dictionary stores the grid
+        static Dictionary<int[], int> grid;
 
 
         // Increment the adjacent cells recursively for each dimension
@@ -146,7 +146,13 @@ namespace MultiD_Minesweeper
         // The function that get called and returns the grid
         public static Dictionary<int[], int> GetGrid(int dimensions, int size, int number_of_mines)
         {
+            // Store the grid as a dictionary with string keys representing n-dimensional coordinates
+            grid = new Dictionary<int[], int>(new IntArrayComparer());
+
+            // Generate the grid
             GenerateGrid(dimensions, size, number_of_mines);
+
+            // Return the grid
             return grid;
         }
 

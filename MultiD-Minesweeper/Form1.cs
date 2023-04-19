@@ -21,6 +21,7 @@ namespace MultiD_Minesweeper
         Image empty;
         Image thumbNailImage;
         Image bombThumbNailImage;
+        Dictionary<int[], int> gameGrid;
 
         //Make variables for later use
         int nonBombsFound = 0;
@@ -284,7 +285,7 @@ namespace MultiD_Minesweeper
                 Cursor = Cursors.WaitCursor;
 
                 //Generate the game board
-                Dictionary<int[], int> gameGrid = Core.GetGrid(dimensions, length, mines);
+                gameGrid = Core.GetGrid(dimensions, length, mines);
 
                 loadGrid(gameGrid);
 
