@@ -9,9 +9,20 @@ namespace MultiD_Minesweeper
 {
     public class CustomButton : Button
     {
-        public void TriggerMouseDown(MouseEventArgs e)
+        public delegate void TriggerMouseDownDelegate(MouseEventArgs e);
+
+        public void TriggerMouseDownSafely(MouseEventArgs e)
         {
-            OnMouseDown(e);
+            if (InvokeRequired)
+            {
+                //Use delegate if triggered from a different thread
+                Invoke(new TriggerMouseDownDelegate(OnMouseDown), e);
+            }
+            else
+            {
+                OnMouseDown(e);
+            }
         }
+
     }
 }
